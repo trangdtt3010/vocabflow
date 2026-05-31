@@ -226,15 +226,10 @@ body {
 .nav-tab.active { font-weight: 600; }
 
 /* Per-tab accent colors */
-.nav-tab[data-tab="read"]   { }
 .nav-tab[data-tab="read"].active   { color: #1A4F8A; border-bottom-color: #3D7EC9; background: #EBF3FD; }
-.nav-tab[data-tab="srs"]    { }
 .nav-tab[data-tab="srs"].active    { color: #4238A0; border-bottom-color: #7166CC; background: #F0EFFE; }
-.nav-tab[data-tab="dict"]   { }
 .nav-tab[data-tab="dict"].active   { color: #0E5A48; border-bottom-color: #2E8A72; background: #E6F7F3; }
-.nav-tab[data-tab="all"]    { }
 .nav-tab[data-tab="all"].active    { color: #7A4A0A; border-bottom-color: #B07020; background: #FDF3E3; }
-.nav-tab[data-tab="report"] { }
 .nav-tab[data-tab="report"].active { color: #8A2A52; border-bottom-color: #C0557A; background: #FDEEF4; }
 
 .nav-badge {
@@ -854,23 +849,6 @@ tr:hover td { background: var(--surface2); }
 .popup-row { display: flex; gap: 6px; margin-bottom: 8px; }
 .popup-row .form-input { flex: 1; }
 .popup-row .form-select { flex: 1; }
-.popup-loading {
-  display: none; align-items: center; gap: 8px;
-  padding: 10px 12px; background: #F0EFFE; border-radius: var(--radius);
-  border: 1px solid #C8C3F5; font-size: 12px; color: #4238A0; margin-bottom: 8px;
-}
-.popup-loading.show { display: flex; }
-.spin { display: inline-block; width: 14px; height: 14px; border: 2px solid #C8C3F5; border-top-color: #7166CC; border-radius: 50%; animation: spin .6s linear infinite; flex-shrink: 0; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.api-key-bar {
-  background: #FDEEF4; border: 1px solid #F5B8CF; border-radius: var(--radius);
-  padding: 8px 12px; font-size: 11px; color: #8A2A52;
-  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
-}
-.api-key-bar a { color: #C0557A; text-underline-offset: 2px; cursor: pointer; }
-
-/* ── EDIT WORD MODAL ── */
-#modal-edit-word .modal { width: 440px; }
 
 /* ── SESSION DONE ── */
 .session-done {
@@ -890,7 +868,7 @@ tr:hover td { background: var(--surface2); }
   <div class="logo">Vocab<span>Flow</span></div>
   <div class="nav-tabs">
     <div class="nav-tab active" data-tab="read" onclick="switchTab('read')">
-      <i class="ti ti-book"></i> Đọc & lưu từ
+      <i class="ti ti-book"></i> Đọc &amp; lưu từ
     </div>
     <div class="nav-tab" data-tab="srs" onclick="switchTab('srs')">
       <i class="ti ti-refresh"></i> Ôn tập
@@ -1042,12 +1020,12 @@ tr:hover td { background: var(--surface2); }
           <span id="sess-streak-text">streak: 0</span>
         </div>
         <div class="session-card">
-          <span class="session-mode-badge mb-listen" id="sess-mode-badge">Nghe & viết</span>
+          <span class="session-mode-badge mb-listen" id="sess-mode-badge">Nghe &amp; viết</span>
           <div class="session-prompt" id="sess-prompt">—</div>
           <div class="session-hint" id="sess-hint"></div>
           <div class="audio-controls" id="sess-audio-row" style="display:none">
             <button class="btn btn-primary" onclick="playCurrentWord()" id="btn-play">
-              <i class="ti ti-volume"></i> Phát <span class="kbd">Space</span>
+              <i class="ti ti-volume"></i> Phát <span class="kbd">Ctrl+Space</span>
             </button>
             <span style="font-size:11px;color:var(--text3)" id="play-count-label"></span>
           </div>
@@ -1059,13 +1037,8 @@ tr:hover td { background: var(--surface2); }
             <button class="btn" onclick="skipWord()">Bỏ qua <span class="kbd">Esc</span></button>
           </div>
           <div class="feedback-box" id="sess-feedback"></div>
-          <div class="self-eval" id="sess-self-eval">
-            <div class="section-label">Bạn có nhớ không?</div>
-            <div class="self-eval-btns">
-              <button class="eval-btn eval-correct" onclick="evalAnswer(true)">✓ Nhớ</button>
-              <button class="eval-btn eval-wrong"   onclick="evalAnswer(false)">✗ Quên</button>
-            </div>
-          </div>
+          <!-- self-eval hidden, auto-advance on wrong -->
+          <div class="self-eval" id="sess-self-eval" style="display:none"></div>
         </div>
         <button class="btn" onclick="exitSession()" style="align-self:flex-start">← Quay lại</button>
       </div>
@@ -1083,7 +1056,7 @@ tr:hover td { background: var(--surface2); }
           <div class="section-label" style="margin-top:4px"><i class="ti ti-pencil"></i> Tự viết câu ví dụ của bạn</div>
           <textarea class="write-textarea" id="write-textarea" placeholder="Viết câu của bạn..."></textarea>
           <div class="copy-hint">
-            <i class="ti ti-bulb"></i> Viết xong → copy câu → dán vào AI để chấm ngữ pháp & ngữ nghĩa
+            <i class="ti ti-bulb"></i> Viết xong → copy câu → dán vào AI để chấm ngữ pháp &amp; ngữ nghĩa
             <button class="btn" style="margin-top:6px;width:100%" onclick="copyWriteSentence()">
               <i class="ti ti-copy"></i> Copy câu để chấm
             </button>
@@ -1122,9 +1095,13 @@ tr:hover td { background: var(--surface2); }
         <div class="hidden-text" id="dict-hidden-text">
           <i class="ti ti-eye-off"></i> Đoạn văn đang ẩn — nhấn Bắt đầu để luyện chép chính tả
         </div>
+        <!-- FIX: thêm nút Kiểm tra, đổi Space → Ctrl+Space -->
         <div class="dict-controls">
           <button class="btn btn-primary" onclick="dictPlayCurrent()" id="dict-btn-play">
-            <i class="ti ti-volume"></i> Phát lại <span class="kbd">Space</span>
+            <i class="ti ti-volume"></i> Phát lại <span class="kbd">Ctrl+Space</span>
+          </button>
+          <button class="btn btn-primary" onclick="dictCheck()" style="background:#2E8A72;border-color:#2E8A72">
+            <i class="ti ti-check"></i> Kiểm tra <span class="kbd">Enter</span>
           </button>
           <button class="btn" onclick="dictSkip()">
             <i class="ti ti-player-skip-forward"></i> Bỏ qua <span class="kbd">Esc</span>
@@ -1133,7 +1110,7 @@ tr:hover td { background: var(--surface2); }
         <div class="dict-input-wrap">
           <div class="dict-label">
             Gõ lại những gì bạn nghe được
-            <span class="kbd">Enter</span> để kiểm tra
+            <span class="kbd">Enter</span> để kiểm tra &nbsp;·&nbsp; <span class="kbd">Shift+Enter</span> câu tiếp
           </div>
           <textarea class="dict-textarea" id="dict-textarea" placeholder="Gõ vào đây..." onkeydown="onDictKey(event)"></textarea>
         </div>
@@ -1265,12 +1242,10 @@ tr:hover td { background: var(--surface2); }
     <div class="popup-word" id="popup-word-display" style="font-family:var(--font-serif);font-size:20px;color:var(--text);flex:1"></div>
     <button class="vact-btn" onclick="speak(pendingWord)" title="Phát âm" style="font-size:18px;color:#3D7EC9"><i class="ti ti-volume"></i></button>
   </div>
-  <!-- Loading state -->
   <div id="popup-loading" style="display:none;align-items:center;gap:8px;padding:9px 12px;background:#F0EFFE;border:1px solid #C8C3F5;border-radius:var(--radius);font-size:12px;color:#4238A0;margin-bottom:8px">
     <span style="display:inline-block;width:13px;height:13px;border:2px solid #C8C3F5;border-top-color:#7166CC;border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0"></span>
     Đang tra từ điển...
   </div>
-  <!-- Error state -->
   <div id="popup-error" style="display:none;padding:7px 10px;background:#FDEEED;border:1px solid #F5C4C4;border-radius:var(--radius);font-size:11px;color:#8C1F20;margin-bottom:8px"></div>
   <div class="popup-row">
     <select class="form-select" id="popup-pos">
@@ -1428,15 +1403,12 @@ window.signOut = async function() {
 onAuthStateChanged(auth, async user => {
   currentUser = user;
   if (user) {
-    // Ẩn login overlay
     document.getElementById('login-overlay').classList.remove('open');
-    // Hiện auth bar
     document.getElementById('auth-avatar').src = user.photoURL || '';
     document.getElementById('auth-avatar').style.display = user.photoURL ? 'block' : 'none';
     document.getElementById('auth-name').textContent = user.displayName || user.email;
     document.getElementById('btn-signout').style.display = 'inline-flex';
     document.getElementById('sync-indicator').style.display = 'flex';
-    // Load data từ Firestore
     await loadFromFirestore();
     initApp();
   } else {
@@ -1461,15 +1433,13 @@ async function loadFromFirestore() {
         history:       remote.history       || [],
         currentLesson: remote.currentLesson || null,
       });
-    }
-    // Cũng migrate từ localStorage nếu có (lần đầu dùng Firebase)
-    else {
+    } else {
       const raw = localStorage.getItem('vocabflow_v1');
       if (raw) {
         try {
           const local = JSON.parse(raw);
           Object.assign(data, local);
-          await saveToFirestore(); // push lên cloud
+          await saveToFirestore();
         } catch(e) {}
       }
     }
@@ -1514,20 +1484,12 @@ let data = {
   currentLesson: null
 };
 
-// Debounce save: gom nhiều thay đổi nhỏ thành 1 lần ghi
 function save() {
-  // Vẫn lưu localStorage làm cache offline
   localStorage.setItem('vocabflow_v1', JSON.stringify(data));
-  // Debounce 1.5s trước khi ghi lên Firestore
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => saveToFirestore(), 1500);
 }
 
-function load() {
-  // load() chỉ dùng khi chưa đăng nhập (fallback)
-  const raw = localStorage.getItem('vocabflow_v1');
-  if (raw) { try { Object.assign(data, JSON.parse(raw)); } catch(e){} }
-}
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 function today() { return new Date().toISOString().slice(0,10); }
 
@@ -1637,7 +1599,6 @@ function renderReadTab() {
   }
   titleEl.textContent = lesson.name;
   textArea.contentEditable = 'true';
-  // Render text with highlighted words
   renderHighlightedText(lesson);
   renderVocabList();
   updateBadges();
@@ -1645,16 +1606,12 @@ function renderReadTab() {
 
 function renderHighlightedText(lesson) {
   const ta = document.getElementById('text-area');
-  // Words in this lesson
   const words = data.words.filter(w => w.lessonId === lesson.id);
   let text = lesson.text || '';
   if (!text) { ta.innerHTML = ''; return; }
 
-  // Sort words longest first to avoid partial matches
   const sorted = [...words].sort((a,b) => b.word.length - a.word.length);
-  // Escape HTML then re-mark
   let html = esc(text);
-  // Replace newlines with paragraph tags
   html = html.split(/\n\n+/).map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
 
   sorted.forEach(w => {
@@ -1664,9 +1621,8 @@ function renderHighlightedText(lesson) {
   ta.innerHTML = html;
 }
 
-// Save text on input
 // ═══════════════════════════════════════════════
-// APP INIT — called after auth + data load
+// APP INIT
 // ═══════════════════════════════════════════════
 function initApp() {
   if (!data.currentLesson && data.lessons.length) data.currentLesson = data.lessons[0].id;
@@ -1686,7 +1642,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lesson) { lesson.text = ta.innerText; save(); }
   });
 
-  // Selection → popup
   document.addEventListener('mouseup', e => {
     if (!document.getElementById('text-area').contains(e.target)) return;
     const sel = window.getSelection();
@@ -1696,7 +1651,6 @@ document.addEventListener('DOMContentLoaded', () => {
     showWordPopup(word, e.clientX, e.clientY);
   });
 
-  // Click on highlighted word → speak
   document.getElementById('text-area').addEventListener('click', e => {
     if (e.target.classList.contains('hw')) {
       const wid = e.target.dataset.wid;
@@ -1705,30 +1659,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Close popup on outside click
   document.addEventListener('mousedown', e => {
     const popup = document.getElementById('word-popup');
     if (!popup.contains(e.target)) closePopup();
   });
 
-  // Keyboard shortcuts for session
+  // ── Keyboard shortcuts ──
   document.addEventListener('keydown', e => {
+    // SRS mix session
     if (document.getElementById('srs-session').classList.contains('active')) {
-      if (e.key === ' ' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+      // Ctrl+Space phát âm (không xung đột với gõ trong input)
+      if (e.key === ' ' && e.ctrlKey) {
         e.preventDefault(); playCurrentWord();
       }
       if (e.key === 'Escape') skipWord();
     }
+    // SRS write session
     if (document.getElementById('srs-write-session').classList.contains('active')) {
       if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); nextWriteWord(); }
     }
+    // Dict tab
     if (document.getElementById('tab-dict').classList.contains('active')) {
-      if (e.key === ' ' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); dictPlayCurrent(); }
+      if (e.key === ' ' && e.ctrlKey) { e.preventDefault(); dictPlayCurrent(); }
       if (e.key === 'Escape') dictSkip();
     }
   });
 
-  // Modal enter key
   document.getElementById('new-lesson-name').addEventListener('keydown', e => { if(e.key==='Enter') createLesson(); });
   document.getElementById('rename-input').addEventListener('keydown',    e => { if(e.key==='Enter') applyRename(); });
   document.getElementById('popup-meaning').addEventListener('keydown', e => {
@@ -1738,13 +1694,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') { e.preventDefault(); document.getElementById('popup-meaning').focus(); }
   });
 
-  // Close modals on overlay click (login overlay excluded)
   document.querySelectorAll('.modal-overlay').forEach(el => {
     el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
   });
-
-  // Firebase auth sẽ gọi initApp() sau khi load xong
-  // initApp() được gọi từ onAuthStateChanged ở trên
 });
 
 // ── Word Popup ──
@@ -1760,7 +1712,6 @@ function showWordPopup(word, x, y) {
   document.getElementById('popup-error').style.display = 'none';
   document.getElementById('popup-save-btn').disabled = false;
 
-  // Position popup
   const pw = 320, ph = 280;
   let left = x + 10;
   let top  = y + 10;
@@ -1770,11 +1721,9 @@ function showWordPopup(word, x, y) {
   popup.style.top  = Math.max(8, top)  + 'px';
   popup.classList.add('open');
 
-  // Auto lookup
   lookupWord(word);
 }
 
-// Pos mapping từ API → internal
 const posMap = {
   noun: 'n', verb: 'v', adjective: 'adj', adverb: 'adv',
   pronoun: 'pron', preposition: 'prep', conjunction: 'conj',
@@ -1792,7 +1741,6 @@ async function lookupWord(word) {
   saveBtn.disabled = true;
 
   try {
-    // Gọi song song: Dictionary API + MyMemory + Wiktionary (backup IPA)
     const [dictRes, transRes, wiktRes] = await Promise.allSettled([
       fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`),
       fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|vi`),
@@ -1802,19 +1750,13 @@ async function lookupWord(word) {
     let ipaFound = '';
     let posFound = '';
 
-    // ── 1. Dictionary API: IPA + từ loại ──
     if (dictRes.status === 'fulfilled' && dictRes.value.ok) {
       const dictData = await dictRes.value.json();
       if (Array.isArray(dictData) && dictData.length > 0) {
         const entry = dictData[0];
-
-        // IPA — thử tất cả phonetics, ưu tiên có text
         const phonetics = entry.phonetics || [];
-        const ipaObj = phonetics.find(p => p.text && p.text.trim())
-                    || phonetics.find(p => p.text);
+        const ipaObj = phonetics.find(p => p.text && p.text.trim()) || phonetics.find(p => p.text);
         if (ipaObj?.text) ipaFound = ipaObj.text.trim();
-
-        // Từ loại
         const meanings = entry.meanings || [];
         if (meanings.length > 0) {
           const rawPos = meanings[0].partOfSpeech || '';
@@ -1823,32 +1765,25 @@ async function lookupWord(word) {
       }
     }
 
-    // ── 2. Wiktionary backup — nếu Dictionary API không có IPA ──
     if (!ipaFound && wiktRes.status === 'fulfilled' && wiktRes.value.ok) {
       try {
-        const wiktData = await wiktRes.value.json();
-        // Wiktionary summary đôi khi chứa IPA trong description
-        // Fallback: parse từ Wiktionary REST
         const wiktFull = await fetch(
           `https://en.wiktionary.org/w/api.php?action=parse&page=${encodeURIComponent(word)}&prop=wikitext&format=json&origin=*`
         );
         if (wiktFull.ok) {
           const wiktFullData = await wiktFull.json();
           const wikitext = wiktFullData?.parse?.wikitext?.['*'] || '';
-          // Tìm IPA trong wikitext: {{IPA|en|/.../ }}
           const ipaMatch = wikitext.match(/IPA\|en\|([^}|]+)/);
           if (ipaMatch) {
             ipaFound = ipaMatch[1].replace(/[[\]]/g, '').trim();
           }
         }
-      } catch(e2) { /* wiktionary fail silently */ }
+      } catch(e2) {}
     }
 
-    // Điền IPA và từ loại
     if (ipaFound) document.getElementById('popup-ipa').value = ipaFound;
     if (posFound) document.getElementById('popup-pos').value = posFound;
 
-    // ── 3. MyMemory: nghĩa tiếng Việt ──
     if (transRes.status === 'fulfilled' && transRes.value.ok) {
       const transData = await transRes.value.json();
       const translated = transData?.responseData?.translatedText || '';
@@ -1872,21 +1807,21 @@ async function lookupWord(word) {
     }, 80);
   }
 }
+
 function closePopup() {
   document.getElementById('word-popup').classList.remove('open');
   pendingWord = '';
   window.getSelection()?.removeAllRanges();
 }
+
 function saveWordFromPopup() {
   let meaning = document.getElementById('popup-meaning').value.trim();
-  if (!meaning) meaning = '—'; // cho phép lưu dù chưa có nghĩa
+  if (!meaning) meaning = '—';
   if (!data.currentLesson) return;
 
-  // Get example sentence containing the word
   const lesson = data.lessons.find(l => l.id === data.currentLesson);
   const example = getExample(lesson?.text || '', pendingWord);
 
-  // Check duplicate
   const dup = data.words.find(w => w.lessonId === data.currentLesson && w.word.toLowerCase() === pendingWord.toLowerCase());
   if (dup) { alert('Từ này đã có trong danh sách!'); closePopup(); return; }
 
@@ -1906,24 +1841,19 @@ function saveWordFromPopup() {
   save();
   closePopup();
 
-  // Thêm highlight vào text-area trực tiếp
   const ta = document.getElementById('text-area');
   highlightWordInDOM(ta, word);
 
-  // Thêm vcard mới vào vocab list trực tiếp
   appendVocabCard(word);
   const words = data.words.filter(w => w.lessonId === data.currentLesson);
   document.getElementById('vocab-count-badge').textContent = words.length + ' từ';
-  // Xoá empty state nếu có
   const emptyMsg = document.querySelector('#vocab-list div[style*="text-align:center"]');
   if (emptyMsg) emptyMsg.remove();
   updateBadges();
 }
 
-// Highlight từ mới trong DOM text-area mà không re-render toàn bộ
 function highlightWordInDOM(container, wordObj) {
-  const re = new RegExp('(?<![\w-])' + wordObj.word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '(?![\w-])', 'gi');
-  // Walk text nodes
+  const re = new RegExp('(?<![\\w-])' + wordObj.word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '(?![\\w-])', 'gi');
   const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
@@ -1947,7 +1877,6 @@ function highlightWordInDOM(container, wordObj) {
   });
 }
 
-// Thêm vcard mới vào cuối vocab list
 function appendVocabCard(w) {
   const list = document.getElementById('vocab-list');
   const div = document.createElement('div');
@@ -2018,16 +1947,13 @@ function deleteWord(id) {
   if (!confirm('Xoá từ này?')) return;
   data.words = data.words.filter(w => w.id !== id);
   save();
-  // Xoá trực tiếp vcard khỏi DOM
   const vcard = document.getElementById('vc-' + id);
   if (vcard) vcard.remove();
-  // Xoá highlight trong text-area
   const hw = document.querySelector(`.hw[data-wid="${id}"]`);
   if (hw) {
     const text = document.createTextNode(hw.textContent);
     hw.replaceWith(text);
   }
-  // Cập nhật badge count
   const words = data.words.filter(w => w.lessonId === data.currentLesson);
   document.getElementById('vocab-count-badge').textContent = words.length + ' từ';
   if (words.length === 0) {
@@ -2042,14 +1968,11 @@ function deleteWord(id) {
 // ═══════════════════════════════════════════════
 let srsMode = 'mix';
 let srsScope = 'all';
-let srsQueue = [];   // danh sách từ gốc
-let srsCards = [];   // flat list {word, cardType: 'listen'|'meaning', correct: null}
-let srsCardIdx = 0;  // vị trí trong srsCards
-let srsIdx = 0;      // unused legacy
-let srsRoundIdx = 0; // unused legacy
+let srsQueue = [];
+let srsCards = [];
+let srsCardIdx = 0;
 let srsCorrectCount = 0;
 let srsWrongCount = 0;
-let srsRoundCorrect = 0;
 
 function renderSRSSetup() {
   const allWords = data.words;
@@ -2060,7 +1983,6 @@ function renderSRSSetup() {
   document.getElementById('srs-learning').textContent = learning.length;
   document.getElementById('srs-done').textContent     = done.length;
 
-  // Scope tags
   const tagsEl = document.getElementById('srs-scope-tags');
   const allCount = need.length;
   let html = `<span class="ftag ${srsScope==='all'?'on':''}" onclick="setSRSScope('all',this)">Tất cả từ đến hạn (${allCount})</span>`;
@@ -2100,22 +2022,17 @@ function startSession() {
 
   if (!pool.length) { alert('Không có từ nào cần ôn!'); return; }
 
-  // Shuffle từ
   srsQueue = [...pool].sort(() => Math.random() - 0.5);
-  srsCorrectCount = 0; srsWrongCount = 0; srsRoundCorrect = 0;
+  srsCorrectCount = 0; srsWrongCount = 0;
 
   if (srsMode === 'write') {
     startWriteSession(srsQueue);
   } else {
-    // Tạo flat card list: mỗi từ có 2 × listen + 1 × meaning, rồi shuffle toàn bộ
-    // Đảm bảo listen xuất hiện trước meaning cho cùng 1 từ bằng cách shuffle theo nhóm
     const groups = srsQueue.map(w => [
       { word: w, cardType: 'listen' },
       { word: w, cardType: 'listen' },
       { word: w, cardType: 'meaning' }
     ]);
-    // Shuffle từng group nội bộ (giữ listen trước meaning)
-    // rồi interleave ngẫu nhiên các group với nhau
     srsCards = interleaveGroups(groups);
     srsCardIdx = 0;
     showSRSSession();
@@ -2146,7 +2063,6 @@ function loadSRSCard() {
   document.getElementById('sess-input').className = 'session-input';
   document.getElementById('sess-feedback').style.display = 'none';
   document.getElementById('sess-feedback').className = 'feedback-box';
-  document.getElementById('sess-self-eval').style.display = 'none';
 
   if (card.cardType === 'listen') {
     document.getElementById('sess-mode-badge').textContent = '🎧 Nghe & viết';
@@ -2167,6 +2083,7 @@ function loadSRSCard() {
 
 function checkAnswer() {
   const card = srsCards[srsCardIdx];
+  if (!card) return;
   const w    = card.word;
   const input = document.getElementById('sess-input').value.trim().toLowerCase();
   const isOk  = input === w.word.toLowerCase();
@@ -2176,7 +2093,7 @@ function checkAnswer() {
   fb.className = 'feedback-box ' + (isOk ? 'correct' : 'wrong');
   fb.innerHTML = isOk
     ? `✓ Đúng! <strong>${esc(w.word)}</strong>${w.meaning ? ' — ' + esc(w.meaning) : ''}`
-    : `✗ Sai. Đáp án: <strong>${esc(w.word)}</strong>`;
+    : `✗ Sai. Đáp án: <strong>${esc(w.word)}</strong> (${esc(w.meaning)}) — nhấn Enter lần nữa để tiếp`;
 
   document.getElementById('sess-input').className = 'session-input ' + (isOk ? 'correct' : 'wrong');
   card.correct = isOk;
@@ -2186,24 +2103,50 @@ function checkAnswer() {
     setTimeout(() => nextRound(true), 900);
   } else {
     srsWrongCount++;
-    document.getElementById('sess-self-eval').style.display = 'flex';
+    // Auto advance sau 1.5s, hoặc double-Enter
+    setTimeout(() => {
+      // Chỉ tự nhảy nếu vẫn còn đang ở card này
+      if (srsCards[srsCardIdx] === card) nextRound(false);
+    }, 1500);
   }
+}
+
+// Double-Enter để nhảy ngay khi đang sai
+let _lastEnterTime = 0;
+function onSessKey(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const now = Date.now();
+    const fb = document.getElementById('sess-feedback');
+    const feedbackShown = fb.style.display === 'block';
+    const isWrong = feedbackShown && fb.classList.contains('wrong');
+
+    if (isWrong && (now - _lastEnterTime) < 600) {
+      // Double Enter khi đang hiện feedback sai → nhảy ngay
+      _lastEnterTime = 0;
+      const card = srsCards[srsCardIdx];
+      if (card) nextRound(false);
+      return;
+    }
+    _lastEnterTime = now;
+    // Nếu đang hiện feedback đúng, không làm gì (đã có setTimeout)
+    if (feedbackShown && fb.classList.contains('correct')) return;
+    checkAnswer();
+  }
+  if (e.key === 'Escape') skipWord();
 }
 
 function evalAnswer(correct) {
   const card = srsCards[srsCardIdx];
   card.correct = correct;
-  document.getElementById('sess-self-eval').style.display = 'none';
   nextRound(correct);
 }
 
-function advanceRound(correct) {} // unused
-
 function nextRound(correct) {
   const card = srsCards[srsCardIdx];
-  const w    = card.word;
+  if (!card) return;
+  const w = card.word;
 
-  // Cập nhật streak theo kết quả card này
   if (correct) {
     w.streak = Math.min(10, w.streak + 1);
   } else {
@@ -2216,11 +2159,6 @@ function nextRound(correct) {
 
   srsCardIdx++;
   loadSRSCard();
-}
-
-function onSessKey(e) {
-  if (e.key === 'Enter') { e.preventDefault(); checkAnswer(); }
-  if (e.key === 'Escape') skipWord();
 }
 
 function skipWord() {
@@ -2251,7 +2189,6 @@ function showDone() {
   done.classList.add('active');
   document.getElementById('done-sub').textContent = `${srsCorrectCount} đúng · ${srsWrongCount} sai trong phiên này`;
 
-  // Save history
   const today_ = today();
   let entry = data.history.find(h => h.date === today_);
   if (!entry) { entry = { date: today_, results: [] }; data.history.push(entry); }
@@ -2334,7 +2271,6 @@ function startDict() {
   if (!lid) { alert('Hãy chọn bài!'); return; }
   const lesson = data.lessons.find(l => l.id === lid);
   if (!lesson || !lesson.text) { alert('Bài này chưa có văn bản!'); return; }
-  // Split into sentences
   dictSentences = lesson.text.split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(s=>s.length>4);
   if (!dictSentences.length) { alert('Không tách được câu từ văn bản!'); return; }
   dictIdx = 0; dictCorrect = 0; dictWrong = 0; dictStarted = true;
@@ -2342,7 +2278,7 @@ function startDict() {
   document.getElementById('dict-btn-next').style.display = 'none';
   document.getElementById('dict-textarea').value = '';
   updateDictProgress();
-  document.getElementById('dict-hidden-text').textContent = '👂 Nhấn Phát lại để nghe câu — rồi gõ vào ô bên dưới';
+  document.getElementById('dict-hidden-text').textContent = '👂 Nhấn Phát lại để nghe — rồi gõ vào ô bên dưới';
   dictPlayCurrent();
 }
 
@@ -2363,12 +2299,12 @@ function dictPlayCurrent() {
 function dictCheck() {
   if (!dictStarted || dictIdx >= dictSentences.length) return;
   const input = document.getElementById('dict-textarea').value.trim();
+  if (!input) return;
   const original = dictSentences[dictIdx];
   const inputWords = tokenize(input);
   const origWords  = tokenize(original);
 
   let html = '';
-  const max = Math.max(inputWords.length, origWords.length);
   let correct = 0;
   origWords.forEach((ow, i) => {
     const iw = inputWords[i] || '';
@@ -2441,7 +2377,6 @@ function setAllFilter(f, el) {
 }
 
 function renderAllTable() {
-  // Update lesson filter dropdown
   const lf = document.getElementById('all-lesson-filter');
   const currentLF = lf.value;
   lf.innerHTML = '<option value="">Tất cả bài</option>' +
@@ -2459,7 +2394,6 @@ function renderAllTable() {
   body.innerHTML = words.map(w => {
     const sc = streakColor(w.streak);
     const pct = Math.round(w.streak / 10 * 100);
-    const lesson = data.lessons.find(l => l.id === w.lessonId);
     return `<tr>
       <td><div class="tbl-word">${esc(w.word)}</div><div class="tbl-ipa">${esc(w.ipa||'')}</div></td>
       <td><span class="pos pos-${w.pos}">${posLabel(w.pos)}</span></td>
@@ -2481,7 +2415,7 @@ function renderAllTable() {
   const nd = words.filter(w=>w.status==='new').length;
   const ld = words.filter(w=>w.status==='learning').length;
   const dd = words.filter(w=>w.status==='done').length;
-  document.getElementById('all-foot-left').textContent = `${words.length} từ${lesson?' · '+esc(lessonF):''}`;
+  document.getElementById('all-foot-left').textContent = `${words.length} từ`;
   document.getElementById('all-foot-right').textContent = `${dd} đã thuộc · ${ld} đang học · ${nd} mới`;
 }
 
@@ -2515,34 +2449,25 @@ function saveEditWord() {
   save();
   closeModal('modal-edit-word');
 
-  // Update trực tiếp vcard trong Read tab (không re-render toàn bộ)
   const vcard = document.getElementById('vc-' + w.id);
   if (vcard) {
-    // Cập nhật border-left color theo pos mới
     vcard.className = `vcard vc-${w.pos}`;
-    // Cập nhật IPA
     const ipaEl = vcard.querySelector('.vipa');
     if (ipaEl) ipaEl.textContent = w.ipa || '';
-    // Cập nhật nghĩa
     const meanEl = vcard.querySelector('.vmean');
     if (meanEl) meanEl.textContent = w.meaning;
-    // Cập nhật ví dụ
     const exEl = vcard.querySelector('.vex');
     if (exEl) exEl.textContent = w.example || '';
-    // Cập nhật badge pos
     const posEl = vcard.querySelector('.pos');
     if (posEl) { posEl.className = `pos pos-${w.pos}`; posEl.textContent = posLabel(w.pos); }
   }
 
-  // Update highlight color trong text-area
   const hwEl = document.querySelector(`.hw[data-wid="${w.id}"]`);
   if (hwEl) hwEl.className = `hw hw-${w.pos}`;
 
-  // Re-render bảng all vocab (nếu đang xem tab đó)
   const allTab = document.getElementById('tab-all');
   if (allTab && allTab.classList.contains('active')) renderAllTable();
 
-  // Re-render SRS stats nếu đang ở tab ôn tập
   const srsTab = document.getElementById('tab-srs');
   if (srsTab && srsTab.classList.contains('active')) renderSRSSetup();
 }
@@ -2583,9 +2508,7 @@ function setQuickRange(days, el) {
   applyReport();
 }
 
-function applyReport() {
-  renderReport();
-}
+function applyReport() { renderReport(); }
 
 function renderReport() {
   const fromStr = document.getElementById('r-from').value;
@@ -2594,12 +2517,10 @@ function renderReport() {
   const to   = new Date(toStr);
   const diffDays = Math.round((to - from) / (1000*60*60*24)) + 1;
 
-  // Range label
   const fmt = d => new Date(d).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});
   document.getElementById('report-range-label').innerHTML = `<i class="ti ti-calendar"></i> ${fmt(fromStr)} — ${fmt(toStr)}`;
   document.getElementById('report-range-info').textContent = `${diffDays} ngày`;
 
-  // Stats
   const total   = data.words.length;
   const newW    = data.words.filter(w=>w.status==='new').length;
   const learning= data.words.filter(w=>w.status==='learning').length;
@@ -2609,16 +2530,9 @@ function renderReport() {
   document.getElementById('r-learn').textContent = learning;
   document.getElementById('r-done').textContent  = done;
 
-  // Heatmap (52 weeks)
   renderHeatmap(from, to);
-
-  // By lesson
   renderByLesson();
-
-  // Top streak
   renderTopStreak();
-
-  // History
   renderHistory();
 }
 
@@ -2704,18 +2618,11 @@ function renderHistory() {
 // ═══════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════
-
-// Trộn các group lại với nhau sao cho listen luôn trước meaning trong cùng 1 từ
 function interleaveGroups(groups) {
-  // Mỗi group = [listen1, listen2, meaning]
-  // Shuffle thứ tự các group, nhưng giữ thứ tự nội bộ mỗi group
   const shuffledGroups = [...groups].sort(() => Math.random() - 0.5);
   const result = [];
-  // Dùng queue: lần lượt lấy 1 card từ đầu mỗi group, theo thứ tự group đã shuffle
   const queues = shuffledGroups.map(g => [...g]);
-  let pass = 0;
   while (queues.some(q => q.length > 0)) {
-    // Shuffle lại thứ tự queue mỗi pass để không bị tuần tự
     const order = queues.map((_,i)=>i).filter(i=>queues[i].length>0).sort(()=>Math.random()-.5);
     for (const i of order) {
       if (queues[i].length > 0) result.push(queues[i].shift());
@@ -2723,12 +2630,46 @@ function interleaveGroups(groups) {
   }
   return result;
 }
+
+// ── FIX 1: Giọng đọc tự nhiên hơn ──
 function speak(text) {
   if (!window.speechSynthesis) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US'; u.rate = 0.9;
-  speechSynthesis.speak(u);
+  u.lang = 'en-US'; u.rate = 0.88; u.pitch = 1;
+  const pickVoice = () => {
+    const voices = speechSynthesis.getVoices();
+    // Ưu tiên giọng neural / tự nhiên nhất
+    const preferred = [
+      'Google US English',
+      'Microsoft Aria Online (Natural) - English (United States)',
+      'Microsoft Guy Online (Natural) - English (United States)',
+      'Microsoft Jenny Online (Natural) - English (United States)',
+      'Microsoft Zira - English (United States)',
+      'Samantha',   // macOS
+      'Karen',      // macOS
+      'Daniel',     // macOS British (fallback)
+    ];
+    for (const name of preferred) {
+      const v = voices.find(x => x.name === name);
+      if (v) return v;
+    }
+    // Fallback: bất kỳ giọng en-US nào
+    return voices.find(v => v.lang === 'en-US' && !v.default)
+        || voices.find(v => v.lang === 'en-US')
+        || null;
+  };
+  const doSpeak = () => {
+    const voice = pickVoice();
+    if (voice) u.voice = voice;
+    speechSynthesis.speak(u);
+  };
+  // Chrome cần đợi voiceschanged lần đầu
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.addEventListener('voiceschanged', doSpeak, { once: true });
+  } else {
+    doSpeak();
+  }
 }
 
 function esc(s) {
@@ -2772,16 +2713,17 @@ function applyPaste() {
   closeModal('modal-paste');
   renderReadTab();
 }
-// Expose functions to global scope (required for type="module")
+
+// Expose to global scope
 Object.assign(window, {
   switchTab, selectLesson, openNewLesson, createLesson, openRenameModal, applyRename,
   deleteLesson, openPasteModal, applyPaste, saveWordFromPopup, closePopup, deleteWord,
   openEditWord, saveEditWord, deleteWordAll, startSession, selectMode, setSRSScope,
   playCurrentWord, checkAnswer, skipWord, evalAnswer, exitSession,
   copyWriteSentence, nextWriteWord, exitWriteSession,
-  startDict, loadDictLesson, dictPlayCurrent, dictNext, dictSkip,
+  startDict, loadDictLesson, dictPlayCurrent, dictCheck, dictNext, dictSkip,
   setAllFilter, exportCSV, setQuickRange, applyReport, speak,
-  openModal, closeModal,
+  openModal, closeModal, onSessKey, onDictKey,
 });
 </script>
 </body>
